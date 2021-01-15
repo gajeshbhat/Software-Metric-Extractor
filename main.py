@@ -1,4 +1,6 @@
 import os
+import hashlib
+import json
 import shutil
 from os import walk
 from pprint import pprint
@@ -63,6 +65,20 @@ def get_analysis_data(projects_dirs):
     return project_metric_list
 
 
+def get_project_metric(project_metric_json):
+    for x in project_metric_json:
+        json_metric = json.loads(x["metric_data"])
+        project_files_metric = json_metric["files"]
+        overall_metrics = json_metric["overall"]
+        file_metircs_list = list()
+        for key, value in project_files_metric.items():
+            file_metircs_list.append(value)
+        return {
+            'overall_metrics': overall_metrics,
+            'file_metrics_list': file_metircs_list
+        }
+
+
 # Place the projects to analyse in Projects dir
 PROJECTS_DIR = "projects"
 ANALYSIS_DIR = "Analysis"
@@ -71,4 +87,5 @@ projects_to_crawl = get_dirs(PROJECTS_DIR)
 project_file_details = get_all_py_files(projects_to_crawl, PROJECTS_DIR)
 dirs_to_analyse = copy_analysis_files(project_file_details, ANALYSIS_DIR)
 # TODO: Integrate MongoDB and Clean the data and make it available for Analysis
-pprint(get_analysis_data(dirs_to_analyse))
+analysis_data = get_analysis_data(dirs_to_analyse)
+print(get_project_metric(analysis_data))
