@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 multimetric = "*"
+sqlalchemy = "*"
 
 [dev-packages]
 
