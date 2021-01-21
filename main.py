@@ -76,7 +76,7 @@ def insert_metric_db(each_project_metric, project_name):
     project_saved_inst = db_session.query(ProjectMetric).filter_by(project_name=str(project_name)).first()
 
     for file_metric in each_project_metric['file_metrics_list']:
-        each_file_obj = get_each_file_obj(file_metric,project_saved_inst)
+        each_file_obj = get_each_file_obj(file_metric, project_saved_inst)
         db_session.add(each_file_obj)
 
     db_session.commit()
